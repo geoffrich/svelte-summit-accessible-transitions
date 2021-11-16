@@ -86,9 +86,14 @@ button:focus:not(:focus-visible) {
 	}
 }
 
-.two-col {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-	align-items: start;
-	gap: 1rem;
+/* Uncomment to disable all animation all the time */
+/*
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		animation-delay: 0.01ms !important;
+	}
 }
+*/

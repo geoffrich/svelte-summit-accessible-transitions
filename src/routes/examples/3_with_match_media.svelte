@@ -1,44 +1,31 @@
 <script>
 	import WithTransition from '$lib/WithTransition.svelte';
 	import { fly, fade } from 'svelte/transition';
-	import { browser } from '$app/env';
 	import { onDestroy } from 'svelte';
+	import { browser } from '$app/env';
 
-	let transitionToUse = fade;
+	let reducedMotion = false;
+	$: transitionToUse = reducedMotion ? fade : fly;
+
+	const reducedMotionQuery = '(prefers-reduced-motion: reduce)';
 
 	if (browser) {
-		const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-		const handleChange = (event) => {
-			transitionToUse = getTransition(event.matches);
+		let mediaQuery = window.matchMedia(reducedMotionQuery);
+		reducedMotion = mediaQuery.matches;
+
+		const setReducedMotion = (event) => {
+			reducedMotion = event.matches;
 		};
 
-		transitionToUse = getTransition(query.matches);
-
-		query.addEventListener('change', handleChange);
+		mediaQuery.addEventListener('change', setReducedMotion);
 
 		onDestroy(() => {
-			query.removeEventListener('change', handleChange);
+			mediaQuery.removeEventListener('change', setReducedMotion);
 		});
-	}
-
-	function getTransition(isReducedMotion) {
-		return isReducedMotion ? fade : fly;
 	}
 </script>
 
 <h1>With Match Media</h1>
 <div class="container two-col">
-	<pre>{`
-const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-let transitionToUse = getTransition(query.matches);
-
-query.addEventListener('change', (event) => {
-	transitionToUse = getTransition(event.matches);
-});
-
-function getTransition(isReducedMotion) {
-	return isReducedMotion ? fade : fly;
-}
-	`}</pre>
 	<WithTransition transition={transitionToUse}>🐱</WithTransition>
 </div>

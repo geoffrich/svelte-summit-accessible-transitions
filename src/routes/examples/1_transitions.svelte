@@ -17,14 +17,7 @@
 </script>
 
 <h1>Example 1</h1>
-<div class="two-col">
-	<pre>{`
-<input type="checkbox" id="show" bind:checked={show} />
-<label for="show">Show box</label>
-{#if show}
-    <div class="box" transition:${transitionName} />
-{/if}
-    `}</pre>
+<div>
 	<div class="container">
 		<div>
 			<label for="transition">Transition</label>
@@ -33,10 +26,6 @@
 					<option value={val}>{text}</option>
 				{/each}
 			</select>
-		</div>
-		<div>
-			<label for="duration">Duration</label>
-			<input id="duration" type="number" bind:value={duration} />
 		</div>
 		<WithTransition {transition} bind:duration />
 	</div>
@@ -54,9 +43,5 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-	}
-
-	input {
-		max-width: 10ch;
 	}
 </style>
